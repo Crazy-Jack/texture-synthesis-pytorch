@@ -154,7 +154,7 @@ def gram_matrix(activations: torch.Tensor) -> torch.Tensor:
     # G[range(G.shape[0]), range(G.shape[0])] = 0.
     mask = torch.zeros_like(G)
     mask[range(G.shape[0]), range(G.shape[0])] = 1.
-    mask = mask.cuda()
+    mask = mask.to(G.device)
     G = G * mask
     return G.div(b * n * x * y)     # normalization
 

@@ -139,10 +139,7 @@ def parse_arguments() -> argparse.Namespace:
     args = parser.parse_args()
 
     # create output subfolder
-    input_name = os.path.splitext(os.path.basename(args.img_path))[0]
     args.out_dir = f"{args.out_dir}_{args.visualizing_layer}_{args.visualizing_mask_mode}"
-    
-    args.out_dir = os.path.join(args.out_dir, input_name)
     os.makedirs(args.out_dir, exist_ok=True)
 
     return args

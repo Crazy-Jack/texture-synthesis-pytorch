@@ -124,7 +124,7 @@ def parse_arguments() -> argparse.Namespace:
       '--visualizing_mask_mode',
       dest='visualizing_mask_mode',
       type=str,
-      default="layer-0",
+      default="channel-0",
       help="mode-index, will be used in model_visual"
     )
 

@@ -59,11 +59,16 @@ class VisualLossHook:
     self.losses = []
     
   def get_mask(self, input_tensor):
-    if self.mask_mode[:5] == 'layer':
-      layer_index = int(self.mask_mode.split("-")[-1])
+    if self.mask_mode[:7] == 'channel':
+      channel_index = int(self.mask_mode.split("-")[-1])
       mask = torch.zeros_like(input_tensor).to(input_tensor.device)
       # print(mask.shape)
-      mask[:, layer_index, :, :] = 1.
+      mask[:, channel_index, :, :] = 1.
+    elif self.mask_mode[:6] == 'neuron':
+      _, c, h, w = self.mask_mode.split("-")
+      c, h, w = int(c), int(h), int(w)
+      mask = torch.zeros_like(input_tensor).to(input_tensor.device)
+      mask[:, c, h, w] = 1.
     else:
       raise NotImplementedError
     return mask

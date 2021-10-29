@@ -149,7 +149,13 @@ def postprocess_image_quick(img: torch.Tensor) -> PIL.Image.Image:
 def gram_matrix(activations: torch.Tensor) -> torch.Tensor:
     b, n, x, y = activations.size()
     activation_matrix = activations.view(b * n, x * y)
+    # print(activation_matrix.shape)
     G = torch.mm(activation_matrix, activation_matrix.t())    # gram product
+    # G[range(G.shape[0]), range(G.shape[0])] = 0.
+    mask = torch.zeros_like(G)
+    mask[range(G.shape[0]), range(G.shape[0])] = 1.
+    mask = mask.cuda()
+    G = G * mask
     return G.div(b * n * x * y)     # normalization
 
 

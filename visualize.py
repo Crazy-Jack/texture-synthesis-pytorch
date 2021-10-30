@@ -25,7 +25,7 @@ def main(args: Optional[argparse.Namespace] = None):
                             )
 
     # synthesize
-    optimizer = optimize.Optimizer(net, args, inverse_init=False)
+    optimizer = optimize.Optimizer(net, args, inverse_init=False, optimizer='adam')
     result = optimizer.optimize()
 
     # save result

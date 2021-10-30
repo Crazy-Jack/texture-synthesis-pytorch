@@ -11,12 +11,13 @@ import model
 
 
 class Optimizer:
-    def __init__(self, model: model.Model, args: Namespace, inverse_init=True):
+    def __init__(self, model: model.Model, args: Namespace, inverse_init=True, optimizer='lbfgs'):
         self.model = model
         self.n_steps = args.n_steps
         self.checkpoint_every = args.checkpoint_every
         self.max_iter = args.max_iter
-        self.lr = args.lr
+        self.lr = args.lr 
+        self.optimizer = optimizer
 
         # initialize the image to be optimized
         # ----------------------
@@ -42,14 +43,17 @@ class Optimizer:
         self.to_pil = torchvision.transforms.ToPILImage()
 
     def optimize(self) -> torch.Tensor:
-        # optimizer = torch.optim.LBFGS(
-        #     [self.opt_image.requires_grad_()],
-        #     lr=self.lr, max_iter=self.max_iter, tolerance_grad=0.0,
-        #     tolerance_change=0.0, line_search_fn='strong_wolfe'
-        # )
-        optimizer = torch.optim.Adam(
-            [self.opt_image.requires_grad_()],
-            lr=self.lr)
+        if self.optimizer == 'lbfgs':
+            optimizer = torch.optim.LBFGS(
+                [self.opt_image.requires_grad_()],
+                lr=self.lr, max_iter=self.max_iter, tolerance_grad=0.0,
+                tolerance_change=0.0, line_search_fn='strong_wolfe'
+            )
+        elif self.optimizer == 'adam':
+            optimizer = torch.optim.Adam(
+                [self.opt_image.requires_grad_()],
+                lr=self.lr
+            )
       
 
         step = 0

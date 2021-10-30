@@ -23,7 +23,7 @@ def main(args: Optional[argparse.Namespace] = None):
     net = model.Model(args.model_path, device, target_image)
 
     # synthesize
-    optimizer = optimize.Optimizer(net, args)
+    optimizer = optimize.Optimizer(net, args, optimizer='lbfgs')
     result = optimizer.optimize()
 
     # save result

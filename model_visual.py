@@ -9,7 +9,7 @@ class Model:
         self, path: str, device: torch.device,
         target_image: torch.Tensor,
         visualizing_layer = 'pool2',
-        visualizing_mask_mode = 'layer-0'
+        visualizing_mask_mode = 'channel-0'
     ):  
         self.target_image = target_image.to(device)
         self.net = utilities.load_model(path).to(device).eval()

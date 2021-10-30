@@ -150,9 +150,10 @@ def gram_matrix(activations: torch.Tensor) -> torch.Tensor:
     b, n, x, y = activations.size()
     activation_matrix = activations.view(b * n, x * y)
     G = torch.mm(activation_matrix, activation_matrix.t())    # gram product
-    mask = torch.zeros_like(G)
-    mask[range(G.shape[0]), range(G.shape[0])] = 1.
+    # set mask
+    mask = torch.ones_like(G)
     mask = mask.to(G.device)
+    # masking
     G = G * mask
     return G.div(b * n * x * y)     # normalization
 
